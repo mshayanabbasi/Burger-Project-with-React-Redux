@@ -6,7 +6,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
@@ -29,14 +29,16 @@ class BurgerBuilder extends Component {
         loading: false,
         error: false
     }
-    componentDidMount = () => {
-        axios.get('https://react-my-burger-ad992.firebaseio.com/ingredients.json')
-        .then(response => {
-            this.setState({ingredients: response.data})
-        })
-        .catch(error =>{
-            this.setState({error: true})
-        })
+
+    componentDidMount () {
+        console.log(this.props);
+        axios.get( 'https://react-my-burger-15db7.firebaseio.com/ingredients.json' )
+            .then( response => {
+                this.setState( { ingredients: response.data } );
+            } )
+            .catch( error => {
+                this.setState( { error: true } );
+            } );
     }
 
     updatePurchaseState ( ingredients ) {
@@ -93,15 +95,15 @@ class BurgerBuilder extends Component {
         // alert('You continue!');
         
         const queryParams = [];
-        for (let i in this.state.ingredients){
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
+        for (let i in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
-        queryParams.push('price='+ this.state.totalPrice)
-        const queryString = queryParams.join('&')
+        queryParams.push('price=' + this.state.totalPrice);
+        const queryString = queryParams.join('&');
         this.props.history.push({
             pathname: '/checkout',
             search: '?' + queryString
-        })
+        });
     }
 
     render () {
@@ -111,14 +113,14 @@ class BurgerBuilder extends Component {
         for ( let key in disabledInfo ) {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
-        let orderSummary = null;    
-        let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner />
+        let orderSummary = null;
+        let burger = this.state.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
 
-        if(this.state.ingredients){
+        if ( this.state.ingredients ) {
             burger = (
                 <Aux>
-                     <Burger ingredients={this.state.ingredients} />
-                     <BuildControls
+                    <Burger ingredients={this.state.ingredients} />
+                    <BuildControls
                         ingredientAdded={this.addIngredientHandler}
                         ingredientRemoved={this.removeIngredientHandler}
                         disabled={disabledInfo}
@@ -126,7 +128,7 @@ class BurgerBuilder extends Component {
                         ordered={this.purchaseHandler}
                         price={this.state.totalPrice} />
                 </Aux>
-            )
+            );
             orderSummary = <OrderSummary
                 ingredients={this.state.ingredients}
                 price={this.state.totalPrice}
@@ -136,18 +138,16 @@ class BurgerBuilder extends Component {
         if ( this.state.loading ) {
             orderSummary = <Spinner />;
         }
-
         // {salad: true, meat: false, ...}
-
         return (
             <Aux>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
                     {orderSummary}
                 </Modal>
-               {burger}
+                {burger}
             </Aux>
         );
     }
 }
 
-export default withErrorHandler(BurgerBuilder, axios);
+export default withErrorHandler( BurgerBuilder, axios );
