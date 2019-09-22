@@ -52,7 +52,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.PURCHASE_BURGER_SUCCESS: return purchaseBurgerSuccess(state, action)   
         case actionTypes.PURCHASE_BURGER_FAILED: return purchaseBurgerFailed(state, action)
         case actionTypes.FETCH_ORDERS_START: return fetchOrdersStart(state, action)
-        case actionTypes.PURCHASE_BURGER_SUCCESS: return fetchOrdersSuccess(state, action)
+        case actionTypes.FETCH_ORDERS_SUCCESS: return fetchOrdersSuccess(state, action)
         case actionTypes.FETCH_ORDERS_FAIL: return fetchOrdersFailed(state, action)
         default: return state
     }
