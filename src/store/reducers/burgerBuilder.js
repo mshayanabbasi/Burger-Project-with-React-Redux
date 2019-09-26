@@ -3,7 +3,8 @@ import { updateObject } from '../utility'
 const initialState = {
 	ingredients: null,
 	totalPrice: 4,
-	error: false
+	error: false,
+	building: false
 }
 
 const INGREDIENT_PRICES = {
@@ -17,7 +18,8 @@ const addIngredients = (state, action) => {
 	const udpateIngredients = updateObject(state.ingredients, udpateIngredient)
 	const updateState = {
 		ingredients: udpateIngredients,
-		totalPrice: state.totalPrice +  INGREDIENT_PRICES[action.ingredientName]
+		totalPrice: state.totalPrice +  INGREDIENT_PRICES[action.ingredientName],
+		building: true
 	}
 	return updateObject(state, updateState)
 }
@@ -26,7 +28,8 @@ const removeIngredients= (state, action) => {
 				const udpateIngs = updateObject(state.ingredients, udpateIng)
 				const updateSt = {
 					ingredients: udpateIngs,
-					totalPrice: state.totalPrice -  INGREDIENT_PRICES[action.ingredientName]
+					totalPrice: state.totalPrice -  INGREDIENT_PRICES[action.ingredientName],
+					building: true
 				}
 				return updateObject(state, updateSt)
 }
@@ -39,7 +42,8 @@ const setIngredients = (state, action) => {
 			cheese: action.ingredients.cheese
 		},
 		totalPrice: 4,
-		error: false
+		error: false,
+		building: false
 	})
 }
 const fetchIngredientsFail = (state, action) => {
