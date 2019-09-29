@@ -12,7 +12,7 @@ import * as burgerBuilderActions from '../../store/actions/index'
 import { withRouter } from "react-router-dom"
 
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
     // constructor(props) {
     //     super(props);
     //     this.state = {...}
