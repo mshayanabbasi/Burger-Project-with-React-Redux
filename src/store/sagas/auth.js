@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { put } from 'redux-saga/effects'
+import { put, call } from 'redux-saga/effects'
 import { delay } from 'redux-saga/effects'
 import * as actions from '../actions/index'
 export function* logoutSaga(action) {
-    yield localStorage.removeItem('token')
-	yield localStorage.removeItem('expirationDate')
-    yield localStorage.removeItem('userId')
+    yield call([localStorage, 'removeItem'], 'token')
+    yield call([localStorage, 'removeItem'], 'expirationDate')
+    yield call([localStorage, 'removeItem'], 'userId')
     yield put(actions.logoutSucceed())
 }
 
@@ -27,7 +27,7 @@ export function* authUserSaga(action) {
     }
     try {
 	    const response = yield axios.post(url, authData)
-	    const expirationDate = yield new Date(new Date().getTime() + response.data.expiresIn * 1000 )
+        const expirationDate = yield new Date(new Date().getTime() + response.data.expiresIn * 1000 )
 	    yield localStorage.setItem('token', response.data.idToken)
 	    yield localStorage.setItem('expirationDate', expirationDate)
 	    yield localStorage.setItem('userId', response.data.localId)
